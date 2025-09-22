@@ -27,14 +27,14 @@ export interface InterviewFormState {
   job_role: string
   description: string
   status: Interview['status']
+}
 
-
-export type FormErrors = Partial<Record<keyof InterviewFormState, string>>
+export type FormErrors = Partial<Record<keyof InterviewFormState, string>>;
 
 type InterviewWithCounts = Interview & {
   applicantCount: number
   questionCount: number
-}
+};
 
 const EMPTY_FORM: InterviewFormState = {
   title: '',

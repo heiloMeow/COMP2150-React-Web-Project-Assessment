@@ -3,7 +3,6 @@ import { API_BASE, JWT, USERNAME } from '../../config'
 import {
   apiRequest,
   buildQuery,
-
   countQuestionsForInterview,
   createApplicant,
   listInterviews,

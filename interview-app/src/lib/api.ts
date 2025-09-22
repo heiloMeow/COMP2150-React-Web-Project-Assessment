@@ -71,7 +71,6 @@ export async function apiRequest<T>(path: string, init: ApiRequestInit = {}): Pr
 
   const response = await fetch(url, fetchInit)
   const rawText = await response.text()
-
   const trimmed = rawText.trim()
 
   if (!response.ok) {
