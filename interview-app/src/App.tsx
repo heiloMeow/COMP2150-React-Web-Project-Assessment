@@ -16,26 +16,11 @@ const router = createBrowserRouter([
     path: '/',
     element: <Layout />,
     children: [
-      {
-        index: true,
-        element: <Navigate to="/interviews" replace />,
-      },
-      {
-        path: 'interviews',
-        element: <InterviewsPage />,
-      },
-      {
-        path: 'questions',
-        element: <QuestionsPage />,
-      },
-      {
-        path: 'applicants',
-        element: <ApplicantsPage />,
-      },
-      {
-        path: 'take/:applicantId',
-        element: <TakeInterviewPage />,
-      },
+      { index: true, element: <Navigate to="/interviews" replace /> },
+      { path: 'interviews', element: <InterviewsPage /> },
+      { path: 'questions', element: <QuestionsPage /> },
+      { path: 'applicants', element: <ApplicantsPage /> },
+      { path: 'take/:applicantId', element: <TakeInterviewPage /> },
     ],
   },
 ])
