@@ -46,28 +46,16 @@ function Layout() {
       <header className="app-header">
         <div className="app-brand">ReadySetHire</div>
         <nav className="app-nav" aria-label="Main navigation">
-          <NavLink
-            className={({ isActive }: { isActive: boolean }) => navClassName(isActive)}
-            to="/interviews"
-          >
+          <NavLink className={({ isActive }: { isActive: boolean }) => navClassName(isActive)} to="/interviews">
             Interviews
           </NavLink>
-          <NavLink
-            className={({ isActive }: { isActive: boolean }) => navClassName(isActive)}
-            to="/questions"
-          >
+          <NavLink className={({ isActive }: { isActive: boolean }) => navClassName(isActive)} to="/questions">
             Questions
           </NavLink>
-          <NavLink
-            className={({ isActive }: { isActive: boolean }) => navClassName(isActive)}
-            to="/applicants"
-          >
+          <NavLink className={({ isActive }: { isActive: boolean }) => navClassName(isActive)} to="/applicants">
             Applicants
           </NavLink>
-          <NavLink
-            className={({ isActive }: { isActive: boolean }) => navClassName(isActive)}
-            to="/take/demo"
-          >
+          <NavLink className={({ isActive }: { isActive: boolean }) => navClassName(isActive)} to="/take/demo">
             Take Interview
           </NavLink>
         </nav>
