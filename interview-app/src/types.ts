@@ -3,7 +3,7 @@ export interface Interview {
   title: string;
   job_role: string;
   description?: string;
-  status: string;
+  status: 'Draft' | 'Published' | 'Archived';
   username: string;
   created_at?: string;
 }
