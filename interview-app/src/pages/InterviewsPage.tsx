@@ -83,7 +83,6 @@ export async function fetchInterviewsWithCounts(params: {
   }
 
   const interviewList = interviewPayload as Interview[]
-
   const enriched = await Promise.all(
     interviewList.map(async (interview) => {
       const [questionCount, applicantCount] = await Promise.all([
