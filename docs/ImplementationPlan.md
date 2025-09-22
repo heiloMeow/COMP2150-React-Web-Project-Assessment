@@ -4,15 +4,17 @@ This implementation roadmap breaks down the work into ten sequential phases. Eac
 
 ## Phase 1 – Project Setup & Baseline Review
 - **Planned Work:**
-  - Review existing project structure within `interview-app/` and ensure dependency list in `package.json` is up to date.
-  - Document baseline technical decisions in `docs/` as needed.
+  - Initialize the frontend with Vite configured for React, TypeScript, and `react-router-dom`, ensuring the build tooling is ready for multipage routing.
+  - Define the four initial routes within the router configuration (e.g., `src/main.tsx` or a dedicated routes module) to establish navigation scaffolding.
+  - Establish hard-coded configuration constants in `src/config.ts` to centralize environment-independent values.
 - **Testing Notes:**
   - Run `npm install` and `npm run lint` to confirm the project installs and lints cleanly.
   - Execute `npm test -- --watch=false` to verify existing unit tests pass.
 
 ## Phase 2 – API Integration Layer
 - **Planned Work:**
-  - Create or update an `api/` service module (e.g., `src/services/apiClient.ts`) to encapsulate REST API calls.
+  - Implement `src/lib/api.ts`'s `apiRequest()` helper to inject `Authorization: Bearer`, `Content-Type`, and `Prefer` headers.
+  - Merge the authenticated `{ username }` payload into outgoing requests and construct PostgREST-style query strings for list/detail operations.
   - Define TypeScript interfaces in `src/types/` for API responses.
 - **Testing Notes:**
   - Add unit tests for the API client using mocked fetch responses (`src/services/__tests__/apiClient.test.ts`).
@@ -44,8 +46,9 @@ This implementation roadmap breaks down the work into ten sequential phases. Eac
 
 ## Phase 6 – Forms & Validation
 - **Planned Work:**
-  - Implement form logic using libraries such as React Hook Form or Formik in relevant components.
-  - Centralize validation schemas in `src/validation/` (e.g., using Yup/Zod).
+  - Implement media capture flows using the `MediaRecorder` API to collect interview audio/video inputs.
+  - Integrate Transformers.js Whisper models for automatic speech recognition, capturing transcripts during submissions.
+  - Provide a graceful fallback to placeholder transcription text whenever Whisper processing fails or is unavailable.
 - **Testing Notes:**
   - Add unit tests for validation utilities and edge cases.
   - Use end-to-end or component tests to verify form submission behavior.
