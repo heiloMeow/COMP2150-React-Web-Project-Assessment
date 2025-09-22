@@ -11,6 +11,8 @@ vi.mock('../../lib/api', () => ({
 }))
 
 import {
+
+  fetchInterviewsWithCounts,
   saveInterviewAndReload,
   validateInterviewForm,
   type InterviewFormState,
@@ -38,6 +40,17 @@ describe('validateInterviewForm', () => {
     })
   })
 })
+
+describe('fetchInterviewsWithCounts', () => {
+  it('surfaces a helpful error when the API payload is not an array', async () => {
+    mockedApi.listInterviews.mockResolvedValue('<!DOCTYPE html>' as any)
+
+    await expect(
+      fetchInterviewsWithCounts({ order: 'id.desc', limit: 5, offset: 0 }),
+    ).rejects.toThrow(/expected an array response/i)
+  })
+})
+
 
 describe('saveInterviewAndReload', () => {
   it('creates a new interview and reloads the listing with counts', async () => {

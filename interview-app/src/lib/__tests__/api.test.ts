@@ -5,7 +5,6 @@ import {
   buildQuery,
 
   countQuestionsForInterview,
-
   createApplicant,
   listInterviews,
   updateApplicant,
@@ -48,7 +47,20 @@ describe('apiRequest helpers', () => {
       'Content-Type': 'application/json',
     })
   })
+  it('parses JSON payloads even when the server omits a content-type header', async () => {
+    const mockFetch = vi.fn().mockResolvedValue({
+      ok: true,
+      status: 200,
+      headers: { get: () => null },
+      text: () => Promise.resolve('[{"id":1}]'),
+    })
 
+    global.fetch = mockFetch as unknown as typeof fetch
+
+    const result = await apiRequest('/interview')
+
+    expect(result).toEqual([{ id: 1 }])
+  })
   it('merges username into POST bodies and sets Prefer header when missing', async () => {
     const mockFetch = vi.fn().mockResolvedValue({
       ok: true,
@@ -144,5 +156,4 @@ describe('apiRequest helpers', () => {
 
     await expect(countQuestionsForInterview(123)).resolves.toBe(0)
   })
-
 })

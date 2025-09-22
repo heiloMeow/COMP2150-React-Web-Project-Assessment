@@ -64,12 +64,25 @@ export async function fetchInterviewsWithCounts(params: {
   limit: number
   offset: number
 }): Promise<InterviewWithCounts[]> {
-  const interviewList = await listInterviews({
+  const interviewPayload = (await listInterviews({
     order: params.order,
     limit: params.limit,
     offset: params.offset,
-  })
+  })) as unknown
 
+  if (!Array.isArray(interviewPayload)) {
+    const preview =
+      typeof interviewPayload === 'string'
+        ? interviewPayload.slice(0, 120)
+        : JSON.stringify(interviewPayload).slice(0, 120)
+
+    throw new Error(
+      `Unable to load interviews: expected an array response from the API. ` +
+        `Please verify your API_BASE configuration. Received: ${preview}`,
+    )
+  }
+
+  const interviewList = interviewPayload as Interview[]
   const enriched = await Promise.all(
     interviewList.map(async (interview) => {
       const [questionCount, applicantCount] = await Promise.all([

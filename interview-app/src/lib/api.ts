@@ -72,21 +72,34 @@ export async function apiRequest<T>(path: string, init: ApiRequestInit = {}): Pr
   const response = await fetch(url, fetchInit)
   const rawText = await response.text()
 
+  const trimmed = rawText.trim()
+
+
   if (!response.ok) {
     const snippet = rawText.slice(0, ERROR_SNIPPET_LENGTH)
     throw new Error(`Request failed with status ${response.status}: ${snippet}`)
   }
 
-  if (!rawText) {
+
+  if (!trimmed) {
     return null as T
   }
 
   const contentType = response.headers?.get?.('content-type') ?? ''
   if (contentType.includes('application/json')) {
-    return JSON.parse(rawText) as T
+
+    return JSON.parse(trimmed) as T
   }
 
-  return rawText as unknown as T
+  if (trimmed.startsWith('{') || trimmed.startsWith('[')) {
+    try {
+      return JSON.parse(trimmed) as T
+    } catch (error) {
+      // Fall back to returning the raw payload below so callers can surface a helpful error.
+    }
+  }
+
+  return trimmed as unknown as T
 }
 
 export function listInterviews(search?: SearchParams) {
@@ -144,7 +157,6 @@ async function fetchCount(path: string, search: SearchParams) {
 
     throw error
   }
-
 }
 
 export function countQuestionsForInterview(interviewId: number) {
