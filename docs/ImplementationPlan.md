@@ -6,7 +6,7 @@ This implementation roadmap breaks down the work into ten sequential phases. Eac
 - **Planned Work:**
   - Initialize the frontend with Vite configured for React, TypeScript, and `react-router-dom`, ensuring the build tooling is ready for multipage routing.
   - Define the four initial routes within the router configuration (e.g., `src/main.tsx` or a dedicated routes module) to establish navigation scaffolding.
-  - Establish hard-coded configuration constants in `src/config.ts` to centralize environment-independent values.
+  - Establish and maintain hard-coded configuration constants in `src/config.ts` so the frontend continues to rely exclusively on those values, including a `GENAI_ENDPOINT` that points to the backend without using environment variables.
 - **Testing Notes:**
   - Run `npm install` and `npm run lint` to confirm the project installs and lints cleanly.
   - Execute `npm test -- --watch=false` to verify existing unit tests pass.
@@ -52,6 +52,9 @@ This implementation roadmap breaks down the work into ten sequential phases. Eac
 - **Testing Notes:**
   - Add unit tests for validation utilities and edge cases.
   - Use end-to-end or component tests to verify form submission behavior.
+  - Explicitly verify that backtracking is blocked after an interview section is submitted.
+  - Confirm that users cannot re-record once submission has occurred.
+  - Ensure the interview flow completes successfully even when ASR falls back to placeholder transcription text.
 
 ## Phase 7 – Accessibility & Responsiveness
 - **Planned Work:**
@@ -60,6 +63,17 @@ This implementation roadmap breaks down the work into ten sequential phases. Eac
 - **Testing Notes:**
   - Run accessibility tooling (e.g., `npm run lint:a11y` or axe browser extension) if available.
   - Perform responsive checks using browser dev tools or automated tests.
+
+## Phase 7a – No-ENV Backend Enablement
+- **Planned Work:**
+  - Scaffold the backend service under `llm-service/**`, ensuring the project structure supports future expansion.
+  - Retain `config.sample.json` for committed defaults and add developer-only overrides via an ignored `config.local.json`.
+  - Implement the POST `/api/summarize-applicant` route that validates payloads with a Zod `SummarySchema` before processing.
+  - Configure CORS policies to allow the frontend to call the backend using the constants defined in `src/config.ts`.
+- **Testing Notes:**
+  - Add request/response tests for `/api/summarize-applicant`, covering both valid submissions and schema validation failures.
+  - Verify that local configuration loading respects the `config.sample.json` defaults when `config.local.json` is absent.
+  - Exercise CORS behavior through integration or supertest-based coverage to confirm frontend compatibility.
 
 ## Phase 8 – Performance Optimizations
 - **Planned Work:**
