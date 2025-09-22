@@ -3,7 +3,9 @@ import { API_BASE, JWT, USERNAME } from '../../config'
 import {
   apiRequest,
   buildQuery,
+
   countQuestionsForInterview,
+
   createApplicant,
   listInterviews,
   updateApplicant,
@@ -142,4 +144,5 @@ describe('apiRequest helpers', () => {
 
     await expect(countQuestionsForInterview(123)).resolves.toBe(0)
   })
+
 })

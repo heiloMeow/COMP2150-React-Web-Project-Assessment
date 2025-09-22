@@ -116,6 +116,7 @@ export function listQuestions(search?: SearchParams) {
   return apiRequest<Question[]>(`/question`, { search })
 }
 
+
 type CountResponse = Array<{ count?: number | string }>
 
 async function fetchCount(path: string, search: SearchParams) {
@@ -143,6 +144,7 @@ async function fetchCount(path: string, search: SearchParams) {
 
     throw error
   }
+
 }
 
 export function countQuestionsForInterview(interviewId: number) {
