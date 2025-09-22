@@ -17,3 +17,5 @@
 - [ ] Audit and satisfy accessibility requirements.
 - [ ] Add the required disclosure to the README.
 - [ ] Write and maintain the necessary automated tests.
+- [ ] Ensure the LLM key persists solely in `llm-service/config.local.json`, with the repository shipping only `config.sample.json`.
+- [ ] Confirm `.gitignore` excludes `config.local.json` and the README clearly instructs contributors not to expose keys.
