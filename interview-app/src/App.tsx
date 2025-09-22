@@ -16,26 +16,11 @@ const router = createBrowserRouter([
     path: '/',
     element: <Layout />,
     children: [
-      {
-        index: true,
-        element: <Navigate to="/interviews" replace />,
-      },
-      {
-        path: 'interviews',
-        element: <InterviewsPage />,
-      },
-      {
-        path: 'questions',
-        element: <QuestionsPage />,
-      },
-      {
-        path: 'applicants',
-        element: <ApplicantsPage />,
-      },
-      {
-        path: 'take/:applicantId',
-        element: <TakeInterviewPage />,
-      },
+      { index: true, element: <Navigate to="/interviews" replace /> },
+      { path: 'interviews', element: <InterviewsPage /> },
+      { path: 'questions', element: <QuestionsPage /> },
+      { path: 'applicants', element: <ApplicantsPage /> },
+      { path: 'take/:applicantId', element: <TakeInterviewPage /> },
     ],
   },
 ])
@@ -46,28 +31,16 @@ function Layout() {
       <header className="app-header">
         <div className="app-brand">ReadySetHire</div>
         <nav className="app-nav" aria-label="Main navigation">
-          <NavLink
-            className={({ isActive }: { isActive: boolean }) => navClassName(isActive)}
-            to="/interviews"
-          >
+          <NavLink className={({ isActive }) => navClassName(isActive)} to="/interviews">
             Interviews
           </NavLink>
-          <NavLink
-            className={({ isActive }: { isActive: boolean }) => navClassName(isActive)}
-            to="/questions"
-          >
+          <NavLink className={({ isActive }) => navClassName(isActive)} to="/questions">
             Questions
           </NavLink>
-          <NavLink
-            className={({ isActive }: { isActive: boolean }) => navClassName(isActive)}
-            to="/applicants"
-          >
+          <NavLink className={({ isActive }) => navClassName(isActive)} to="/applicants">
             Applicants
           </NavLink>
-          <NavLink
-            className={({ isActive }: { isActive: boolean }) => navClassName(isActive)}
-            to="/take/demo"
-          >
+          <NavLink className={({ isActive }) => navClassName(isActive)} to="/take/demo">
             Take Interview
           </NavLink>
         </nav>
