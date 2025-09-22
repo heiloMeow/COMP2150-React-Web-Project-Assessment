@@ -116,6 +116,7 @@ export function listQuestions(search?: SearchParams) {
   return apiRequest<Question[]>(`/question`, { search })
 }
 
+
 type CountResponse = Array<{ count?: number | string }>
 
 async function fetchCount(path: string, search: SearchParams) {
@@ -167,7 +168,6 @@ export function listApplicants(search?: SearchParams) {
 export function countApplicantsForInterview(interviewId: number) {
   return fetchCount(`/applicant`, { interview_id: `eq.${interviewId}` })
 }
-
 export function createApplicant(data: Partial<Applicant>) {
   return apiRequest<Applicant | Applicant[]>(`/applicant`, { method: 'POST', body: data })
 }
