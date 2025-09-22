@@ -116,6 +116,32 @@ export function listQuestions(search?: SearchParams) {
   return apiRequest<Question[]>(`/question`, { search })
 }
 
+
+type CountResponse = Array<{ count?: number | string }>
+
+async function fetchCount(path: string, search: SearchParams) {
+  const rows = await apiRequest<CountResponse>(path, {
+    search: { ...search, select: 'count' },
+  })
+
+  const first = rows[0]?.count
+
+  if (typeof first === 'string') {
+    const parsed = Number.parseInt(first, 10)
+    return Number.isNaN(parsed) ? 0 : parsed
+  }
+
+  if (typeof first === 'number') {
+    return first
+  }
+
+  return 0
+}
+
+export function countQuestionsForInterview(interviewId: number) {
+  return fetchCount(`/question`, { interview_id: `eq.${interviewId}` })
+}
+
 export function createQuestion(data: Partial<Question>) {
   return apiRequest<Question | Question[]>(`/question`, { method: 'POST', body: data })
 }
@@ -139,6 +165,9 @@ export function listApplicants(search?: SearchParams) {
   return apiRequest<Applicant[]>(`/applicant`, { search })
 }
 
+export function countApplicantsForInterview(interviewId: number) {
+  return fetchCount(`/applicant`, { interview_id: `eq.${interviewId}` })
+}
 export function createApplicant(data: Partial<Applicant>) {
   return apiRequest<Applicant | Applicant[]>(`/applicant`, { method: 'POST', body: data })
 }
