@@ -3,6 +3,9 @@ import { API_BASE, JWT, USERNAME } from '../../config'
 import {
   apiRequest,
   buildQuery,
+
+  countQuestionsForInterview,
+
   createApplicant,
   listInterviews,
   updateApplicant,
@@ -127,4 +130,19 @@ describe('apiRequest helpers', () => {
 
     await expect(apiRequest('/interview', { method: 'GET' })).rejects.toThrow(/400/)
   })
+
+  it('returns zero for count helpers when the API responds with 404', async () => {
+    const mockFetch = vi.fn().mockResolvedValue({
+      ok: false,
+      status: 404,
+      headers: { get: () => 'application/json' },
+      text: () =>
+        Promise.resolve('{"code":"PGRST302","message":"Results contain 0 rows"}'),
+    })
+
+    global.fetch = mockFetch as unknown as typeof fetch
+
+    await expect(countQuestionsForInterview(123)).resolves.toBe(0)
+  })
+
 })
