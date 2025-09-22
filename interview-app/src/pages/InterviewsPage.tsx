@@ -16,12 +16,18 @@ import {
 } from '../lib/api'
 import type { Interview } from '../types'
 
+const INTERVIEW_STATUS_OPTIONS: readonly Interview['status'][] = [
+  'Draft',
+  'Published',
+  'Archived',
+]
+
 export interface InterviewFormState {
   title: string
   job_role: string
   description: string
-  status: string
-}
+  status: Interview['status']
+
 
 export type FormErrors = Partial<Record<keyof InterviewFormState, string>>
 
@@ -34,7 +40,7 @@ const EMPTY_FORM: InterviewFormState = {
   title: '',
   job_role: '',
   description: '',
-  status: '',
+  status: 'Draft',
 }
 
 export function validateInterviewForm(state: InterviewFormState): FormErrors {
@@ -54,6 +60,8 @@ export function validateInterviewForm(state: InterviewFormState): FormErrors {
 
   if (!state.status.trim()) {
     nextErrors.status = 'Status is required.'
+  } else if (!INTERVIEW_STATUS_OPTIONS.includes(state.status)) {
+    nextErrors.status = 'Status must be Draft, Published, or Archived.'
   }
 
   return nextErrors
@@ -166,9 +174,22 @@ function InterviewsPage() {
     loadInterviews()
   }, [loadInterviews])
 
-  const handleInputChange = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleInputChange = (
+    event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>,
+  ) => {
     const { name, value } = event.target
-    setFormState((prev) => ({ ...prev, [name]: value }))
+    setFormState((prev) => {
+      if (name === 'status') {
+        const nextStatus = value as Interview['status']
+
+        return {
+          ...prev,
+          status: INTERVIEW_STATUS_OPTIONS.includes(nextStatus) ? nextStatus : prev.status,
+        }
+      }
+
+      return { ...prev, [name]: value }
+    })
   }
 
   const resetForm = () => {
@@ -427,7 +448,7 @@ function InterviewsPage() {
 
           <div className="form-field">
             <label htmlFor="status">Status</label>
-            <input
+            <select
               id="status"
               name="status"
               value={formState.status}
@@ -435,7 +456,13 @@ function InterviewsPage() {
               required
               aria-invalid={formErrors.status ? 'true' : 'false'}
               aria-describedby={formErrors.status ? 'status-error' : undefined}
-            />
+            >
+              {INTERVIEW_STATUS_OPTIONS.map((statusOption) => (
+                <option key={statusOption} value={statusOption}>
+                  {statusOption}
+                </option>
+              ))}
+            </select>
             {formErrors.status ? (
               <p className="field-error" id="status-error" data-testid="status-error">
                 {formErrors.status}

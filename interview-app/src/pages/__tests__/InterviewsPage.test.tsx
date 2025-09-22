@@ -11,7 +11,6 @@ vi.mock('../../lib/api', () => ({
 }))
 
 import {
-
   fetchInterviewsWithCounts,
   saveInterviewAndReload,
   validateInterviewForm,
@@ -27,7 +26,7 @@ describe('validateInterviewForm', () => {
       title: '',
       job_role: '',
       description: '',
-      status: '',
+      status: '' as unknown as Interview['status'],
     }
 
     const errors = validateInterviewForm(emptyForm)
@@ -38,6 +37,18 @@ describe('validateInterviewForm', () => {
       description: 'Description is required.',
       status: 'Status is required.',
     })
+  })
+  it('rejects unsupported status values', () => {
+    const invalidStatusForm: InterviewFormState = {
+      title: 'Technical Screen',
+      job_role: 'Frontend Engineer',
+      description: 'A short screening interview.',
+      status: 'Active' as unknown as Interview['status'],
+    }
+
+    const errors = validateInterviewForm(invalidStatusForm)
+
+    expect(errors.status).toBe('Status must be Draft, Published, or Archived.')
   })
 })
 
@@ -51,14 +62,12 @@ describe('fetchInterviewsWithCounts', () => {
   })
 })
 
-
 describe('saveInterviewAndReload', () => {
   it('creates a new interview and reloads the listing with counts', async () => {
     const formState: InterviewFormState = {
       title: 'Technical Screen',
       job_role: 'Frontend Engineer',
       description: 'A short screening interview.',
-      status: 'Active',
     }
 
     const interview: Interview = {
@@ -66,7 +75,7 @@ describe('saveInterviewAndReload', () => {
       title: 'Technical Screen',
       job_role: 'Frontend Engineer',
       description: 'A short screening interview.',
-      status: 'Active',
+      status: 'Draft',
       username: 'tester',
       created_at: '2025-01-01T00:00:00Z',
     }
