@@ -27,7 +27,7 @@ export interface InterviewFormState {
   job_role: string
   description: string
   status: Interview['status']
-}
+
 
 export type FormErrors = Partial<Record<keyof InterviewFormState, string>>
 
@@ -91,7 +91,6 @@ export async function fetchInterviewsWithCounts(params: {
   }
 
   const interviewList = interviewPayload as Interview[]
-
   const enriched = await Promise.all(
     interviewList.map(async (interview) => {
       const [questionCount, applicantCount] = await Promise.all([

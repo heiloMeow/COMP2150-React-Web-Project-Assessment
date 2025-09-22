@@ -38,7 +38,6 @@ describe('validateInterviewForm', () => {
       status: 'Status is required.',
     })
   })
-
   it('rejects unsupported status values', () => {
     const invalidStatusForm: InterviewFormState = {
       title: 'Technical Screen',
@@ -69,7 +68,6 @@ describe('saveInterviewAndReload', () => {
       title: 'Technical Screen',
       job_role: 'Frontend Engineer',
       description: 'A short screening interview.',
-      status: 'Draft',
     }
 
     const interview: Interview = {

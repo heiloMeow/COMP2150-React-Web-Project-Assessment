@@ -71,13 +71,13 @@ export async function apiRequest<T>(path: string, init: ApiRequestInit = {}): Pr
 
   const response = await fetch(url, fetchInit)
   const rawText = await response.text()
+
   const trimmed = rawText.trim()
 
   if (!response.ok) {
     const snippet = rawText.slice(0, ERROR_SNIPPET_LENGTH)
     throw new Error(`Request failed with status ${response.status}: ${snippet}`)
   }
-
   if (!trimmed) {
     return null as T
   }
@@ -124,7 +124,6 @@ export function deleteInterview(id: number) {
 export function listQuestions(search?: SearchParams) {
   return apiRequest<Question[]>(`/question`, { search })
 }
-
 type CountResponse = Array<{ count?: number | string }>
 
 async function fetchCount(path: string, search: SearchParams) {

@@ -3,6 +3,7 @@ import { API_BASE, JWT, USERNAME } from '../../config'
 import {
   apiRequest,
   buildQuery,
+
   countQuestionsForInterview,
   createApplicant,
   listInterviews,
@@ -46,7 +47,6 @@ describe('apiRequest helpers', () => {
       'Content-Type': 'application/json',
     })
   })
-
   it('parses JSON payloads even when the server omits a content-type header', async () => {
     const mockFetch = vi.fn().mockResolvedValue({
       ok: true,
@@ -61,7 +61,6 @@ describe('apiRequest helpers', () => {
 
     expect(result).toEqual([{ id: 1 }])
   })
-
   it('merges username into POST bodies and sets Prefer header when missing', async () => {
     const mockFetch = vi.fn().mockResolvedValue({
       ok: true,
