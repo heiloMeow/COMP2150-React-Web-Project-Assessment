@@ -6,6 +6,7 @@ import {
   useMemo,
   useState,
 } from 'react'
+import { useNavigate } from 'react-router-dom'
 import {
   countApplicantsForInterview,
   countQuestionsForInterview,
@@ -132,6 +133,7 @@ export async function saveInterviewAndReload(options: {
 }
 
 function InterviewsPage() {
+  const navigate = useNavigate()
   const [interviews, setInterviews] = useState<InterviewWithCounts[]>([])
   const [page, setPage] = useState(0)
   const [pageSize, setPageSize] = useState(5)
@@ -246,6 +248,9 @@ function InterviewsPage() {
     setFormErrors({})
   }
 
+  const handleViewQuestions = (interviewId: number) => {
+    navigate(`/questions?interview_id=${interviewId}`, { state: { interviewId } })
+  }
   const handleDelete = async (id: number) => {
     const confirmed = window.confirm('Delete this interview? This action cannot be undone.')
 
@@ -369,7 +374,10 @@ function InterviewsPage() {
                     <td>{interview.status}</td>
                     <td>{interview.questionCount}</td>
                     <td>{interview.applicantCount}</td>
-                    <td className="table-actions">
+                  <td className="table-actions">
+                      <button type="button" onClick={() => handleViewQuestions(interview.id)}>
+                        Questions
+                      </button>
                       <button type="button" onClick={() => handleEdit(interview)}>
                         Edit
                       </button>

@@ -8,7 +8,7 @@ import {
 } from 'react-router-dom'
 import ApplicantsPage from './pages/ApplicantsPage'
 import InterviewsPage from './pages/InterviewsPage'
-import QuestionsPage from './pages/QuestionsPage'
+import QuestionsPage from './pages/Questions/QuestionsPage'
 import TakeInterviewPage from './pages/TakeInterviewPage'
 
 const router = createBrowserRouter([
