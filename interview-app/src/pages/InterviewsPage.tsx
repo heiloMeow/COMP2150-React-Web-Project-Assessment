@@ -92,7 +92,6 @@ export async function fetchInterviewsWithCounts(params: {
   }
 
   const interviewList = interviewPayload as Interview[]
-
   const enriched = await Promise.all(
     interviewList.map(async (interview) => {
       const [questionCount, applicantCount] = await Promise.all([
@@ -252,7 +251,6 @@ function InterviewsPage() {
   const handleViewQuestions = (interviewId: number) => {
     navigate(`/questions?interview_id=${interviewId}`, { state: { interviewId } })
   }
-
   const handleDelete = async (id: number) => {
     const confirmed = window.confirm('Delete this interview? This action cannot be undone.')
 
